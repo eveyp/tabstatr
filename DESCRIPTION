@@ -1,6 +1,6 @@
 Package: tabstatr
 Title: Summary statistic tables for weighted data
-Version: 0.0.0.9000
+Version: 0.0.1
 Authors@R: 
     person(given = "Eve",
            family = "Perry",
