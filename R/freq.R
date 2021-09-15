@@ -6,7 +6,8 @@ freq = function(data, ..., weights, use_na = c("show", "drop")) {
 
   sym_weights = rlang::ensym(weights)
 
-  if (sum(.data[[rlang::as_string(sym_weights)]] < 0) > 0) rlang::abort("Cannot use negative weights.")
+  neg_wgt_count = sum(data[[rlang::as_string(sym_weights)]] < 0)
+  if (neg_wgt_count > 0) rlang::abort("Cannot use negative weights.")
 
   if (missing(use_na) || use_na == "drop") {
     data = dplyr::filter(data, !is.na(!!vars[[1]]))
