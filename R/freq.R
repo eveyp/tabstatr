@@ -2,6 +2,7 @@ freq = function(data, ..., weights, use_na = c("show", "drop")) {
   vars = rlang::ensyms(...)
   if (length(vars) > 2) rlang::abort("More than 2 variables supplied.")
   if (length(vars) == 0) rlang::abort("No variables supplied.")
+  if (missing(weights)) rlang::abort("No weights supplied.")
 
   sym_weights = rlang::ensym(weights)
 
