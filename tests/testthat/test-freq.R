@@ -52,3 +52,58 @@ test_that("one variable freq works", {
     tibble(y = c(1:2, NA), freq = c(11, 14, 30))
   )
 })
+
+test_that("two variable freq works", {
+  expect_equal(
+    freq(test_data, x, y, weights = z),
+    tibble(x = 1:4, y = rep(1:2, 2), freq = 1:4) %>% group_by(x)
+  )
+
+  expect_equal(
+    freq(test_data, y, x, weights = z),
+    tibble(y = c(1, 1, 2, 2), x = c(1, 3, 2, 4), freq = c(1, 3, 2, 4)) %>%
+      group_by(y)
+  )
+
+  expect_equal(
+    freq(test_data_nas, x, y, weights = z),
+    tibble(x = 1:4, y = c(1:2, 1:2), freq = 1:4) %>%
+      group_by(x)
+  )
+
+  expect_equal(
+    freq(test_data_nas, x, y, weights = z, use_na = "drop"),
+    tibble(x = 1:4, y = c(1:2, 1:2), freq = 1:4) %>%
+      group_by(x)
+  )
+
+  expect_equal(
+    freq(test_data_nas, x, y, weights = z, use_na = "show"),
+    tibble(
+      x = c(1:6, NA, NA, NA), y = c(1:2, 1:2, NA, NA, 1:2, NA),
+      freq = c(1:8, 19)
+    ) %>%
+      group_by(x)
+  )
+
+  expect_equal(
+    freq(test_data_nas, y, x, weights = z),
+    tibble(y = c(1, 1, 2, 2), x = c(1, 3, 2, 4), freq = c(1, 3, 2, 4)) %>%
+      group_by(y)
+  )
+
+  expect_equal(
+    freq(test_data_nas, y, x, weights = z, use_na = "drop"),
+    tibble(y = c(1, 1, 2, 2), x = c(1, 3, 2, 4), freq = c(1, 3, 2, 4)) %>%
+      group_by(y)
+  )
+
+  expect_equal(
+    freq(test_data_nas, y, x, weights = z, use_na = "show"),
+    tibble(
+      y = c(1, 1, 1, 2, 2, 2, NA, NA, NA), x = c(1, 3, NA, 2, 4, NA, 5, 6, NA),
+      freq = c(1, 3, 7, 2, 4, 8, 5, 6, 19)
+    ) %>%
+      group_by(y)
+  )
+})
