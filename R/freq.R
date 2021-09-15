@@ -18,5 +18,5 @@ freq = function(data, ..., weights, use_na = c("show", "drop")) {
 
   data %>%
     dplyr::group_by(!!!vars) %>%
-    summarise(freq = sum(!!sym_weights, na.rm = TRUE))
+    dplyr::summarise(freq = sum(!!sym_weights, na.rm = TRUE))
 }
