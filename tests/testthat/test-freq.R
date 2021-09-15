@@ -2,6 +2,15 @@ library(dplyr)
 test_data = tibble(x = 1:4, y = rep(1:2, 2), z = 1:4)
 test_data_nas = bind_rows(test_data, tibble(x = c(5:6, NA, NA, NA, NA), y = c(NA, NA, 1:2, NA, NA), z = 5:10))
 
+test_that("error checking works", {
+  expect_error(freq(test_data, weights = z), "No variables supplied.")
+  expect_error(freq(test_data_nas, x, y, xna, weights = z), "More than 2 variables supplied.")
+  expect_error(freq(test_data, x), "No weights supplied.")
+
+  test_neg_weight = tibble(x = 1:4, y = c(1:3, -1))
+  expect_error(freq(test_neg_weight, x, weights = y), "Cannot use negative weights.")
+})
+
 test_that("one variable freq works", {
   expect_equal(
     freq(test_data, x, weights = z),
